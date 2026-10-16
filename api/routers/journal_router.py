@@ -14,6 +14,7 @@ from api.models.entry import (
     EntryCreate,
     EntryCreatedResponse,
     EntryListResponse,
+    EntryUpdate,
 )
 from api.repositories.interface_repository import DatabaseInterface
 from api.services.entry_service import EntryService
@@ -71,6 +72,12 @@ async def get_all_entries(entry_service: EntryServiceDependency) -> EntryListRes
 @router.get("/entries/{entry_id}")
 async def get_entry(entry_id: str, entry_service: EntryServiceDependency) -> Entry:
     """Get a journal entry by ID."""
+
+    entry = await entry_service.get_entry(entry_id)
+    if entry is None:
+        raise HTTPException(status_code=404, detail="Entry not found")
+
+    return entry
     # TODO: Implement this endpoint to return a single journal entry by ID.
     #
     # Steps to implement:
@@ -95,9 +102,10 @@ async def get_entry(entry_id: str, entry_service: EntryServiceDependency) -> Ent
 
 @router.patch("/entries/{entry_id}")
 async def update_entry(
-    entry_id: str, entry_update: dict[str, str], entry_service: EntryServiceDependency
+    entry_id: str, entry_update: EntryUpdate, entry_service: EntryServiceDependency
 ) -> Entry:
     """Update a journal entry."""
+
     # TODO (Task 2): Replace ``entry_update: dict[str, str]`` with ``entry_update: EntryUpdate``
     # (import the supplied model from ``api.models.entry``). Complete the shared
     # EntryText string rules there; omission and null handling are already supplied.
@@ -106,7 +114,7 @@ async def update_entry(
     # would overwrite omitted fields with their defaults.
     # An empty object is allowed and leaves the text fields unchanged.
     # See ``TestUpdateEntry`` in tests/test_api.py and docs/06-input-validation.md.
-    result = await entry_service.update_entry(entry_id, entry_update)
+    result = await entry_service.update_entry(entry_id, entry_update.model_dump(exclude_unset=True))
     if result is None:
         raise HTTPException(status_code=404, detail="Entry not found")
 
@@ -116,6 +124,12 @@ async def update_entry(
 @router.delete("/entries/{entry_id}")
 async def delete_entry(entry_id: str, entry_service: EntryServiceDependency) -> DetailResponse:
     """Delete a journal entry by ID."""
+
+    deleted = await entry_service.delete_entry(entry_id)
+    if not deleted:
+        raise HTTPException(status_code=404, detail="Entry not found")
+
+    return DetailResponse(detail="Entry deleted successfully")
     # TODO: Implement this endpoint to delete a specific journal entry.
     #
     # Steps to implement:
