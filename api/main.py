@@ -22,10 +22,12 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None]:
         logger.info("API is ready to accept requests")
         try:
             # TODO (Task 3): Log API readiness at INFO after the database is ready.
+            logger.info("API is ready to accept requests")
             yield
         finally:
             logger.info("API is shutting down")
             # TODO (Task 3): Log API shutdown at INFO during cleanup.
+            logger.info("API is shutting down")
             del app.state.database
 
 
