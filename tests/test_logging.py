@@ -41,7 +41,7 @@ def isolated_root_logger(restored_root_logger):
     root = restored_root_logger
     for handler in root.handlers[:]:
         root.removeHandler(handler)
-    root.setLevel(logging.WARNING)
+    root.setLevel(logging.INFO)
     return root
 
 
