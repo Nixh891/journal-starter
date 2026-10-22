@@ -5,6 +5,10 @@ from pydantic import BaseModel, ConfigDict, Field, StringConstraints, field_vali
 
 AnalysisText = Annotated[str, StringConstraints(strip_whitespace=True, min_length=1)]
 
+EntryText = Annotated[
+    str, StringConstraints(strict=True, strip_whitespace=True, min_length=1, max_length=256)
+]
+
 
 class AnalysisResponse(BaseModel):
     """Response model for journal entry analysis."""
@@ -31,7 +35,6 @@ class AnalysisResponse(BaseModel):
 # whitespace and require 1-256 characters after trimming. Keep strict=True.
 # EntryCreate and EntryUpdate both use this type; leave the Entry read model alone.
 # See docs/06-input-validation.md for the exercise walkthrough.
-EntryText = Annotated[str, StringConstraints(strict=True, max_length=256)]
 
 
 class EntryCreate(BaseModel):
