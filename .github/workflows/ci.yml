@@ -178,4 +178,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ steps.login-ecr.outputs.registry }}/${{ github.repository }}:${{ github.sha }},${{ steps.login-ecr.outputs.registry }}/${{ github.repository }}:latest
+                    tags: ${{ steps.login-ecr.outputs.registry }}/journal-api:${{ github.sha }},${{ steps.login-ecr.outputs.registry }}/journal-api:latest
