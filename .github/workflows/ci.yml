@@ -148,6 +148,8 @@ jobs:
       - name: Run selected task and preceding exercises
         run: uv run python -m scripts.ci_tests --event "$GITHUB_EVENT_PATH"
 
+head -n 150 .github/workflows/ci.yml > /tmp/ci_clean.yml && cat >> /tmp/ci_clean.yml << 'EOF'
+
   build:
     name: build-and-push
     needs: test
@@ -175,7 +177,8 @@ jobs:
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
-         with:
+        with:
           context: .
           push: true
           tags: ${{ steps.login-ecr.outputs.registry }}/journal-api:${{ github.sha }},${{ steps.login-ecr.outputs.registry }}/journal-api:latest
+EOF
