@@ -30,7 +30,7 @@ jobs:
         run: uv python install 3.12
 
       - name: Install dependencies
-        run: uv sync --locked --python 3.12
+        run: uv sync --python 3.12
 
       - name: Ruff check
         run: uv run ruff check .
@@ -82,7 +82,7 @@ jobs:
         run: uv python install 3.12
 
       - name: Install dependencies
-        run: uv sync --locked --python 3.12
+        run: uv sync --python 3.12
 
       - name: Initialize application and test databases
         run: |
