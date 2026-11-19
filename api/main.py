@@ -1,8 +1,15 @@
 import logging
+import time
 from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
+
+# --- OpenTelemetry Imports ---
+from opentelemetry import trace
+from opentelemetry.sdk.resources import Resource
+from opentelemetry.sdk.trace import TracerProvider
+from opentelemetry.sdk.trace.export import ConsoleSpanExporter, SimpleSpanProcessor
 
 from api.config import get_settings
 from api.logging_config import configure_logging
@@ -31,9 +38,38 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None]:
             del app.state.database
 
 
+# --- OTel Configuration ---
+resource = Resource.create({"service.name": "journal-api", "service.version": "1.0.0"})
+
+tracer_provider = TracerProvider(resource=resource)
+
+console_exporter = ConsoleSpanExporter()
+tracer_provider.add_span_processor(SimpleSpanProcessor(console_exporter))
+
+trace.set_tracer_provider(tracer_provider)
+
+
 app = FastAPI(
     title="Journal API",
     description="A simple journal API for tracking daily work, struggles, and intentions",
     lifespan=lifespan,
 )
 app.include_router(journal_router)
+
+
+# Simulated in-memory database
+journal_entries = []
+
+
+@app.get("/entries")
+def get_entries():
+    time.sleep(0.1)
+    return {"entries": journal_entries}
+
+
+@app.post("/entries")
+def create_entry(title: str, content: str):
+    time.sleep(0.2)
+    entry = {"id": len(journal_entries) + 1, "title": title, "content": content}
+    journal_entries.append(entry)
+    return {"message": "Entry created", "entry": entry}

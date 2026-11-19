@@ -10,8 +10,11 @@ dependencies = [
     "asyncpg",
     "pydantic>=2.13.4",
     "pydantic-settings",
-    "openai>=2.53.0",
+    "openai>=2.53.0,<3",
     "httpx>=0.28.1",
+    "opentelemetry-api>=1.45.1",
+    "opentelemetry-sdk>=1.45.1",
+    "opentelemetry-instrumentation-fastapi>=0.66b1",
 ]
 
 [dependency-groups]

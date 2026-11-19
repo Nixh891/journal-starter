@@ -135,6 +135,12 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+*.pem
+*.key
+
+# OS generated files
+.DS_Store
+Thumbs.db
 
 # Spyder project settings
 .spyderproject
@@ -169,3 +175,13 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+
+#Terraform files
+.terraform/
+*.tfstate
+*.tfstate.backup
+*.tfvars
+
+#Visual Studio Code MCP server file
+.vscode/mcp.json

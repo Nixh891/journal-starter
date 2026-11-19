@@ -1,0 +1,11 @@
+{
+	"mcpServers": {
+		"my-mcp-server-463c8b6b": {
+			"type": "stdio",
+			"command": "Copilot",
+			"args": [
+				"Global"
+			]
+		}
+	}
+}

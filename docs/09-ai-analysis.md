@@ -97,8 +97,8 @@ Write each part yourself, using the optional hints when you need more detail.
 
    ```python
    sentiment_schema = {
-      "type": "string",
-      "enum": ["positive", "negative", "neutral"],
+       "type": "string",
+       "enum": ["positive", "negative", "neutral"],
    }
    ```
 
@@ -128,7 +128,7 @@ Write each part yourself, using the optional hints when you need more detail.
    ```python
    response = await client.responses.create(
        model=get_settings().openai_model,
-         instructions=analysis_instructions,
+       instructions=analysis_instructions,
        input=entry_text,
        text={
            "format": {
